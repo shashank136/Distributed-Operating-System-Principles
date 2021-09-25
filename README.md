@@ -30,7 +30,7 @@ client: `dotnet fsi client.fsx 192.168.249.1`
  1. **Work unit**: I observed that my system of actors work optimally when the work unit is 1000 string. This helped worker to compute hash of more string in less time without waiting for communication with coordinator. With work unit less then 1000 most of the time is spent in communication between coordinator and workers.
  2. **Result of program for input 4**: For input 4 my code generate following string as result:
  `"shashankk.hayyal;5xWBYHnqOnXU87T" "0000a0f49b1e9fc786689f09e6d658b1ed685112f3802ba2c9ecfd87837aa38c"`
-![Resut screenshot](https://github.com/shashank136/Distributed-Operating-System-Principles/blob/main/result_for_input_4.png)
+![Resut screenshot](https://user-images.githubusercontent.com/14002441/134751210-c70e2781-996d-45bb-8fd0-d1abe336c402.png)
  3. **Running Time**: For the input of 4, **CPU time** reported is **00:00:02.437** and **Real time** reported is **00:00:00.839**. The ratio of CPU time to real time is approx. 2.437/0.839 ~ 2.9.
  4. **Coins with maximum zeros mined**: I am able to mine coins with max. 8 zeros.
  5. I'm able to run my code on 3 machines and one of them being the host server machine.
