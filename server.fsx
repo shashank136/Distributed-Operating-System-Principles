@@ -7,6 +7,29 @@ open Akka.Configuration
 open Akka.FSharp
 open System.Security.Cryptography
 
+open System.Net.NetworkInformation
+open System.Net
+open System.Net.Sockets
+
+// get the ip address of remote machine
+let localIpAddress =
+    let networkInterfaces =
+        NetworkInterface.GetAllNetworkInterfaces()
+        |> Array.filter (fun iface -> iface.OperationalStatus.Equals(OperationalStatus.Up))
+
+    let addresses =
+        seq {
+            for iface in networkInterfaces do
+                for unicastAddr in iface.GetIPProperties().UnicastAddresses do
+                    yield unicastAddr.Address
+        }
+
+    addresses
+    |> Seq.filter (fun addr -> addr.AddressFamily.Equals(AddressFamily.InterNetwork))
+    |> Seq.filter (IPAddress.IsLoopback >> not)
+    |> Seq.head
+
+let localhost = localIpAddress.ToString()
 
 let configuration = 
     ConfigurationFactory.ParseString(
@@ -21,14 +44,13 @@ let configuration =
                     unhandled : on
                 }
             }
+            loglevel = ""OFF""
             remote {
                 helios.tcp {
                     port = 9001
-                    hostname = 192.168.249.1
+                    hostname = "+localhost+"
                 }
-            }
-            # options: OFF, ERROR, WARNING, INFO, DEBUG
-            loglevel = ""OFF""
+            }            
         }")
 
 
